@@ -16,10 +16,6 @@ public class KnapsackProblemCreator {
     public void createAndSolveKnapsackProblem() throws IOException, ParseException {
         JSONReader jsonReader=new JSONReader("example.json");
 
-        System.out.println(Arrays.toString(jsonReader.getCalculationTaskList().toArray()));
-        System.out.println(Arrays.toString(jsonReader.getComputingCenterList().toArray()));
-
-
         MultipleKnapsack knapsacks = new MultipleKnapsack();
         jsonReader.getComputingCenterList().forEach(computingCenter -> {
             knapsacks.addKnapsack(new Knapsack(computingCenter.getComputingPower(), computingCenter.getName()));
