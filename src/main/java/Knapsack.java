@@ -6,9 +6,9 @@ import java.util.LinkedList;
 public class Knapsack {
 
     private Long cap;
-    private Long startWeight;
-    private String name;
-    private LinkedList<KnapsackItem> items;
+    private final Long startWeight;
+    private final String name;
+    private final LinkedList<KnapsackItem> items;
 
     /**
      * Constructor that cerates a new knapsack with a cap, name and a startWeight value.

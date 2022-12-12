@@ -3,9 +3,9 @@
  */
 public class ComputingCenter {
 
-    private Long computingPower;
+    private final Long computingPower;
 
-    private String name;
+    private final String name;
 
     /**
      * Constructor that instantiates computingPower and name for an item.

@@ -9,9 +9,9 @@ import java.util.*;
 
 public class JSONReader {
 
-    private List<CalculationTask> calculationTaskList;
+    private final List<CalculationTask> calculationTaskList;
 
-    private List<ComputingCenter> computingCenterList;
+    private final List<ComputingCenter> computingCenterList;
 
     /**
      * Constructor that read data from JSON and instantiates calculationTaskList and computingCenterList.

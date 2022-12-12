@@ -3,11 +3,11 @@
  */
 public class CalculationTask {
 
-    private Long size;
+    private final Long size;
 
-    private Long value;
+    private final Long value;
 
-    private String name;
+    private final String name;
 
 
     /**

@@ -88,15 +88,7 @@ public class MultipleKnapsack {
             itemsInKnapsacks.addAll(knapsack.getItems());
         }
 
-        itemsInKnapsacks.sort((i1, i2) -> {
-            if (i1.getWeight() > i2.getWeight()) {
-                return -1;
-            } else if (i1.getWeight() < i2.getWeight()) {
-                return 1;
-            } else {
-                return 0;
-            }
-        });
+        itemsInKnapsacks.sort((i1, i2) -> i2.getWeight().compareTo(i1.getWeight()));
 
         for(Knapsack knapsack : knapsacks) {
             knapsack.getItems().clear();
@@ -117,38 +109,30 @@ public class MultipleKnapsack {
      */
     public void greedyMultipleKnapsack(LinkedList<KnapsackItem> items) {
 
-        items.sort((i1, i2) -> {
-            if (i1.getValueByWeight() > i2.getValueByWeight()) {
-                return -1;
-            } else if (i1.getValueByWeight() < i2.getValueByWeight()) {
-                return 1;
-            } else {
-                return 0;
-            }
-        });
+        items.sort((i1, i2) -> Double.compare(i2.getValueByWeight(), i1.getValueByWeight()));
 
         Knapsack bestKnapsack;
         double bestWeightDifference;
         double currentWeightDifference;
 
-        for (int i = 0; i < items.size(); i++) {
-            if(!this.items.contains(items.get(i))) {
-                this.items.add(items.get(i));
+        for (KnapsackItem item : items) {
+            if (!this.items.contains(item)) {
+                this.items.add(item);
             }
             bestWeightDifference = Integer.MAX_VALUE;
             bestKnapsack = null;
-            for (int j = 0; j < knapsacks.size(); j++) {
-                if(knapsacks.get(j).getCap() >= items.get(i).getWeight()) {
-                    currentWeightDifference = knapsacks.get(j).getCap() - items.get(i).getWeight();
-                    if(currentWeightDifference < bestWeightDifference && currentWeightDifference > 0) {
+            for (Knapsack knapsack : knapsacks) {
+                if (knapsack.getCap() >= item.getWeight()) {
+                    currentWeightDifference = knapsack.getCap() - item.getWeight();
+                    if (currentWeightDifference < bestWeightDifference && currentWeightDifference > 0) {
                         bestWeightDifference = currentWeightDifference;
-                        bestKnapsack = knapsacks.get(j);
+                        bestKnapsack = knapsack;
                     }
                 }
             }
-            if(bestKnapsack != null) {
-                bestKnapsack.addItem(items.get(i));
-                this.items.remove(items.get(i));
+            if (bestKnapsack != null) {
+                bestKnapsack.addItem(item);
+                this.items.remove(item);
             }
         }
     }

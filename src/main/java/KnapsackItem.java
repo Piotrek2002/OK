@@ -3,10 +3,10 @@
  */
 public class KnapsackItem {
 
-    private Long weight;
-    private Long value;
-    private double valueByWeight;
-    private String name;
+    private final Long weight;
+    private final Long value;
+    private final double valueByWeight;
+    private final String name;
 
     /**
      * Constructor that instantiates weight, value and name for an item.
