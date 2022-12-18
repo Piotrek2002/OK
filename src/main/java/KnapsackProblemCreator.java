@@ -1,9 +1,9 @@
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class KnapsackProblemCreator {
 
@@ -14,7 +14,7 @@ public class KnapsackProblemCreator {
      * Method that create knapsackProblem and generate solution.
      */
     public void createAndSolveKnapsackProblem() throws IOException, ParseException {
-        JSONReader jsonReader=new JSONReader("example.json");
+        JSONReader jsonReader = new JSONReader("example.json");
 
         MultipleKnapsack knapsacks = new MultipleKnapsack();
         jsonReader.getComputingCenterList().forEach(computingCenter -> {
@@ -23,7 +23,7 @@ public class KnapsackProblemCreator {
 
         LinkedList<KnapsackItem> items = new LinkedList<>();
         jsonReader.getCalculationTaskList().forEach(calculationTask -> {
-            items.add(new KnapsackItem(calculationTask.getSize(),calculationTask.getValue(),calculationTask.getName()));
+            items.add(new KnapsackItem(calculationTask.getSize(), calculationTask.getValue(), calculationTask.getName()));
         });
 
 
@@ -33,23 +33,47 @@ public class KnapsackProblemCreator {
         printResult();
     }
 
+    public void createAndCheckKnapsackProblemTime() {
+        long start = 0;
+        long stop = 0;
+        int[] knapsackTab = {10, 100, 500, 1000};
+        int[] itemTab = {10, 50, 100, 250, 500, 1000, 2500, 5000, 10000};
+        MultipleKnapsack knapsacks = new MultipleKnapsack();
+        LinkedList<KnapsackItem> items = new LinkedList<>();
+        for (int knapsackCount : knapsackTab) {
+            for (int itemCount : itemTab) {
+                start = System.nanoTime();
+                Random random = new Random();
+                for (int i = 0; i < knapsackCount; i++) {
+                    knapsacks.addKnapsack(new Knapsack(random.nextLong(100) + 1, "s" + i));
+                }
+                for (int i = 0; i < itemCount; i++) {
+                    items.add(new KnapsackItem(random.nextLong(10) + 1, random.nextLong(10) + 1, "t" + i));
+                }
+                knapsacks.greedyMultipleKnapsack(items);
+                stop = System.nanoTime();
+                System.out.println("knapsackCount: " + knapsackCount + " itemCount: " + itemCount + " time: " + (stop - start));
+            }
+        }
+    }
+
     /**
      * Method that print result.
      */
-    public void printResult(){
+    public void printResult() {
         result.getKnapsacks().sort(Comparator.comparing(Knapsack::getName));
         int iterator;
         for (Knapsack knapsack : result.getKnapsacks()) {
-            iterator=1;
+            iterator = 1;
             System.out.println("Computing center"
                     + "\nName: " + knapsack.getName()
                     + "\nComputing power: " + knapsack.getStartWeight()
                     + "\nRemaining computing power: " + knapsack.getCap() + "\n");
-            for(KnapsackItem item : knapsack.getItems()) {
-                System.out.println("Calculation task "+iterator
+            for (KnapsackItem item : knapsack.getItems()) {
+                System.out.println("Calculation task " + iterator
                         + "\nName: " + item.getName()
                         + "\nValue: " + item.getValue()
-                        + "\nComputing power needed: " + item.getWeight()+"\n");
+                        + "\nComputing power needed: " + item.getWeight() + "\n");
                 iterator++;
             }
             System.out.println("---------------------------");
